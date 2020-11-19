@@ -19,5 +19,7 @@ namespace App2.Tasks
         int Progress { get; set; }
 
         void Run();
+
+        void Init();
     }
 }

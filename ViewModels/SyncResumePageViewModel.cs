@@ -55,11 +55,7 @@ namespace App2.ViewModels
         {
             IsRunning = true;
             foreach (var t in Tasks)
-            {
-                t.Progress = 0;
-                t.IsWaiting = true;
-                t.Message = "Pending";
-            }
+                t.Init();
 
             Thread th = new Thread(new ThreadStart(() =>
             {
@@ -76,9 +72,7 @@ namespace App2.ViewModels
 
         public void StartTask(SynchronizationTask task)
         {
-            task.IsWaiting = true;
-            task.Progress = 0;
-            task.Message = "Pending";
+            task.Init();
 
             Thread th = new Thread(new ThreadStart(() =>
             {

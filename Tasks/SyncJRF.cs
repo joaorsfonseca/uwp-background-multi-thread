@@ -19,12 +19,7 @@ namespace App2.Tasks
 
         public void Run()
         {
-            DispatcherHelper.ExecuteOnUIThreadAsync(() =>
-            {
-                IsWaiting = false;
-                Progress = 0;
-                Message = "Running...";
-            });
+            base.Starting();
 
             Debug.WriteLine($"Running {this.Name}");
             DispatcherHelper.ExecuteOnUIThreadAsync(() =>
@@ -38,6 +33,7 @@ namespace App2.Tasks
             DispatcherHelper.ExecuteOnUIThreadAsync(() =>
             {
                 IsWaiting = false;
+                HasWarnings = this.Name == "JRF1";
                 Progress = 100;
                 Message = "Finished...";
             });

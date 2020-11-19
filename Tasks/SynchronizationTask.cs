@@ -1,9 +1,12 @@
 ﻿using App2.ViewModels;
+using Microsoft.Toolkit.Uwp.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.UI;
+using Windows.UI.Xaml.Media;
 
 namespace App2.Tasks
 {
@@ -22,7 +25,27 @@ namespace App2.Tasks
             }
         }
 
-        public bool InError { get; set; }
+        private bool _inError;
+        public bool InError
+        {
+            get => _inError;
+            set
+            {
+                Set(ref _inError, value);
+                OnPropertyChanged(nameof(IsEnabled));
+            }
+        }
+
+        private bool _hasWarnings;
+        public bool HasWarnings
+        {
+            get => _hasWarnings;
+            set
+            {
+                Set(ref _hasWarnings, value);
+                OnPropertyChanged(nameof(Color));
+            }
+        }
 
         private int _progress;
         public int Progress
@@ -44,10 +67,35 @@ namespace App2.Tasks
 
         public bool IsEnabled => !IsWaiting && !(this.Progress < 100);
 
+        public SolidColorBrush Color
+        {
+            get
+            {
+                //if(HasWarnings && !IsWaiting && !(this.Progress<100))
+                if(HasWarnings)
+                    return new SolidColorBrush(Colors.Orange);
+
+                return new SolidColorBrush(Colors.Blue);
+            }
+        }
+
         public void Init()
         {
             IsWaiting = true;
+            HasWarnings = false;
+            Progress = 0;
             Message = "Pending";
+        }
+
+        public void Starting()
+        {
+            DispatcherHelper.ExecuteOnUIThreadAsync(() =>
+            {
+                IsWaiting = false;
+                HasWarnings = false;
+                Progress = 0;
+                Message = "Running...";
+            });
         }
     }
 }

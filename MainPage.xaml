@@ -17,6 +17,7 @@
                                   IsIndeterminate="{x:Bind IsWaiting, Mode=OneWay}" 
                                   ShowError="{x:Bind InError, Mode=OneWay}" 
                                   Value="{x:Bind Progress, Mode=OneWay}"
+                                  Foreground="{x:Bind Color, Mode=OneWay}"
                                   HorizontalAlignment="Left" />
                 <TextBlock Text="{x:Bind Message, Mode=OneWay}" FontSize="12"></TextBlock>
                 <Button IsEnabled="{x:Bind IsEnabled, Mode=OneWay}" Click="Button_Click_1">
