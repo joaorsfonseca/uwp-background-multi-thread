@@ -22,6 +22,7 @@ namespace App2.Tasks
             {
                 Set(ref _isWaiting, value);
                 OnPropertyChanged(nameof(IsEnabled));
+                OnPropertyChanged(nameof(Color));
             }
         }
 
@@ -55,6 +56,8 @@ namespace App2.Tasks
             {
                 Set(ref _progress, value);
                 OnPropertyChanged(nameof(IsEnabled));
+                if (value == 100)
+                    OnPropertyChanged(nameof(Color));
             }
         }
 
@@ -71,8 +74,7 @@ namespace App2.Tasks
         {
             get
             {
-                //if(HasWarnings && !IsWaiting && !(this.Progress<100))
-                if(HasWarnings)
+                if (HasWarnings && !IsWaiting && !(this.Progress < 100))
                     return new SolidColorBrush(Colors.Orange);
 
                 return new SolidColorBrush(Colors.Blue);

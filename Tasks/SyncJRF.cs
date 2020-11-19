@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace App2.Tasks
 {
     public class SyncJRF : SynchronizationTask, ISynchronizationTask
-    { 
+    {
         public SyncJRF() { }
         public SyncJRF(string Name) : this()
         {
@@ -28,12 +28,20 @@ namespace App2.Tasks
             });
 
             Thread.Sleep(5000);
+            DispatcherHelper.ExecuteOnUIThreadAsync(() =>
+            {
+                HasWarnings = this.Name == "JRF1";
+            });
             Debug.WriteLine($"Waking {this.Name}");
 
             DispatcherHelper.ExecuteOnUIThreadAsync(() =>
             {
+                InError = this.Name == "JRF2";
+            });
+
+            DispatcherHelper.ExecuteOnUIThreadAsync(() =>
+            {
                 IsWaiting = false;
-                HasWarnings = this.Name == "JRF1";
                 Progress = 100;
                 Message = "Finished...";
             });
